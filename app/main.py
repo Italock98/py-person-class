@@ -8,16 +8,20 @@ class Person:
 
 
 def create_person_list(people_data: list[dict]) -> list[Person]:
-    for data in people_data:
-        name = data["name"]
-        age = data["age"]
+    Person.people.clear()
+
+    for person_data in people_data:
+        name = person_data["name"]
+        age = person_data["age"]
         Person(name, age)
 
-    for data in people_data:
-        person = Person.people[data["name"]]
-        if "wife" in data and data["wife"] is not None:
-            person.wife = Person.people[data["wife"]]
-        if "husband" in data and data["husband"] is not None:
-            person.husband = Person.people[data["husband"]]
+    for person_data in people_data:
+        current = Person.people[person_data["name"]]
 
-    return [Person.people[data["name"]] for data in people_data]
+        if "wife" in person_data and person_data["wife"] is not None:
+            current.wife = Person.people[person_data["wife"]]
+
+        if "husband" in person_data and person_data["husband"] is not None:
+            current.husband = Person.people[person_data["husband"]]
+
+    return [Person.people[entry["name"]] for entry in people_data]
